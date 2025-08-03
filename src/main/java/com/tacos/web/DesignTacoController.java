@@ -1,6 +1,6 @@
 package com.tacos.web;
 
-import com.tacos.data.repository.IngredientRepository;
+import com.tacos.data.jdbcdata.IngredientRepository;
 import com.tacos.domain.Ingredient;
 import com.tacos.domain.IngredientType;
 import com.tacos.domain.Taco;

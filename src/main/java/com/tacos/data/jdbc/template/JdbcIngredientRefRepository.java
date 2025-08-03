@@ -1,6 +1,6 @@
-package com.tacos.data.jdbc;
+package com.tacos.data.jdbc.template;
 
-import com.tacos.data.repository.IngredientRefRepository;
+import com.tacos.data.jdbc.repository.IngredientRefRepository;
 import com.tacos.domain.IngredientRef;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ public class JdbcIngredientRefRepository implements IngredientRefRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
     public IngredientRef save(IngredientRef ingredientRef, long tacoId, long tacoKey) {
         jdbcTemplate.update(
                 "INSERT INTO Ingredient_Ref "
@@ -30,7 +29,6 @@ public class JdbcIngredientRefRepository implements IngredientRefRepository {
         return ingredientRef;
     }
 
-    @Override
     public void saveAll(List<IngredientRef> ingredientRefs, long tacoId) {
         int key = 0;
         for (IngredientRef ingredientRef : ingredientRefs) {

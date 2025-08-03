@@ -1,6 +1,6 @@
-package com.tacos.data.jdbc;
+package com.tacos.data.jdbc.template;
 
-import com.tacos.data.repository.IngredientRepository;
+import com.tacos.data.jdbc.repository.IngredientRepository;
 import com.tacos.domain.Ingredient;
 import com.tacos.domain.IngredientType;
 
@@ -21,12 +21,10 @@ public class JdbcIngredientRepository implements IngredientRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
     public Iterable<Ingredient> findAll() {
         return jdbcTemplate.query("SELECT id, name, type FROM ingredient", this::mapRowToIngredient);
     }
 
-    @Override
     public Optional<Ingredient> findById(String id) {
         return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
@@ -37,7 +35,6 @@ public class JdbcIngredientRepository implements IngredientRepository {
         );
     }
 
-    @Override
     public Ingredient save(Ingredient ingredient) {
         jdbcTemplate.update(
                 "INSERT INTO ingredient (id, name, type) values (?, ?, ?)",

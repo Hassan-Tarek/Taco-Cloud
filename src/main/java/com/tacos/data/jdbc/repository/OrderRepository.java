@@ -1,4 +1,4 @@
-package com.tacos.data.repository;
+package com.tacos.data.jdbc.repository;
 
 import com.tacos.domain.TacoOrder;
 

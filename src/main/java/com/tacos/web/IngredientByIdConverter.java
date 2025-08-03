@@ -1,6 +1,6 @@
 package com.tacos.web;
 
-import com.tacos.data.repository.IngredientRepository;
+import com.tacos.data.jdbcdata.IngredientRepository;
 import com.tacos.domain.Ingredient;
 
 import org.springframework.beans.factory.annotation.Autowired;
