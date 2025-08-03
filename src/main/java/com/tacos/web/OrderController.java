@@ -1,6 +1,6 @@
 package com.tacos.web;
 
-import com.tacos.data.jdbcdata.OrderRepository;
+import com.tacos.data.jpa.OrderRepository;
 import com.tacos.domain.TacoOrder;
 
 import jakarta.validation.Valid;

@@ -1,6 +1,6 @@
 package com.tacos.web;
 
-import com.tacos.data.jdbcdata.IngredientRepository;
+import com.tacos.data.jpa.IngredientRepository;
 import com.tacos.domain.Ingredient;
 import com.tacos.domain.IngredientType;
 import com.tacos.domain.Taco;
@@ -36,8 +36,7 @@ public class DesignTacoController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredientRepository.findAll().forEach(ingredients::add);
+        List<Ingredient> ingredients = new ArrayList<>(ingredientRepository.findAll());
 
         IngredientType[] ingredientTypes = IngredientType.values();
         for(IngredientType ingredientType : ingredientTypes) {
