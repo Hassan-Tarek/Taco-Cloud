@@ -1,10 +1,10 @@
 package com.tacos.domain;
 
+import jakarta.persistence.Entity;
 import lombok.Data;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table
+@Entity
 public class IngredientRef {
     private final String ingredient;
 }
