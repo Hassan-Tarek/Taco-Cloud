@@ -21,11 +21,10 @@ CREATE TABLE IF NOT EXISTS taco_order (
 CREATE TABLE IF NOT EXISTS taco (
     id BIGINT AUTO_INCREMENT NOT NULL,
     name VARCHAR(50),
-    taco_order BIGINT NOT NULL,
-    taco_order_key BIGINT NOT NULL,
+    taco_order_id BIGINT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT pk_id PRIMARY KEY (id),
-    CONSTRAINT fk_taco_order FOREIGN KEY (taco_order)
+    CONSTRAINT fk_taco_order FOREIGN KEY (taco_order_id)
         REFERENCES taco_order (id)
         ON DELETE CASCADE
 );
@@ -38,12 +37,14 @@ CREATE TABLE IF NOT EXISTS ingredient (
     CONSTRAINT pk_id PRIMARY KEY (id)
 );
 
--- create ingredient_ref table
-CREATE TABLE IF NOT EXISTS ingredient_ref (
-    ingredient VARCHAR(4) NOT NULL,
-    taco BIGINT NOT NULL,
-    taco_key BIGINT NOT NULL,
-    CONSTRAINT fk_ingredient FOREIGN KEY (ingredient)
+-- create taco_ingredients join table
+CREATE TABLE IF NOT EXISTS taco_ingredients (
+    taco_id BIGINT NOT NULL,
+    ingredient_id VARCHAR(4) NOT NULL,
+    CONSTRAINT fk_taco FOREIGN KEY (taco_id)
+        REFERENCES taco (id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_ingredient FOREIGN KEY (ingredient_id)
         REFERENCES ingredient (id)
         ON DELETE CASCADE
 );

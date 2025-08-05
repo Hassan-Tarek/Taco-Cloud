@@ -1,8 +1,8 @@
 package com.tacos.data.jdbc.template;
 
 import aj.org.objectweb.asm.Type;
-import com.tacos.data.jdbc.repository.IngredientRefRepository;
 import com.tacos.data.jdbc.repository.TacoRepository;
+import com.tacos.domain.Ingredient;
 import com.tacos.domain.Taco;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
+//@Repository
 public class JdbcTacoRepository implements TacoRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final IngredientRefRepository ingredientRefRepository;
 
-    @Autowired
-    public JdbcTacoRepository(JdbcTemplate jdbcTemplate,
-                              IngredientRefRepository ingredientRefRepository) {
+//    @Autowired
+    public JdbcTacoRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.ingredientRefRepository = ingredientRefRepository;
     }
 
     public Taco save(Taco taco, long orderId, long orderKey) {
@@ -35,14 +32,14 @@ public class JdbcTacoRepository implements TacoRepository {
         pscf.setReturnGeneratedKeys(true);
 
         taco.setCreatedAt(new Date());
-        PreparedStatementCreator psc = getPreparedStatementCreator(pscf, taco, orderId, orderKey);
+        PreparedStatementCreator psc = getPreparedStatementCreator(pscf, taco, orderId);
 
         GeneratedKeyHolder gkh = new GeneratedKeyHolder();
         jdbcTemplate.update(psc, gkh);
         long tacoId = Objects.requireNonNull(gkh.getKey()).longValue();
         taco.setId(tacoId);
 
-        ingredientRefRepository.saveAll(taco.getIngredients(), tacoId);
+        saveIngredientsToTaco(tacoId, taco.getIngredients());
 
         return taco;
     }
@@ -54,23 +51,33 @@ public class JdbcTacoRepository implements TacoRepository {
         }
     }
 
+    private void saveIngredientsToTaco(long tacoId, List<Ingredient> ingredients) {
+        for (Ingredient ingredient : ingredients) {
+            jdbcTemplate.update(
+                    "INSERT INTO taco_ingredients "
+                    + "(taco_id, ingredient_id) "
+                    + "VALUES (?, ?)",
+                    tacoId, ingredient.getId()
+            );
+        }
+    }
+
     private static PreparedStatementCreatorFactory getPreparedStatementCreatorFactory() {
         return new PreparedStatementCreatorFactory(
                 "INSERT INTO Taco "
-                        + "(name, created_at, taco_order, taco_order_key) "
-                        + "VALUES (?, ?, ?, ?)",
-                Types.VARCHAR, Types.TIMESTAMP, Type.LONG, Type.LONG
+                        + "(name, taco_order_id, created_at) "
+                        + "VALUES (?, ?, ?)",
+                Types.VARCHAR, Type.LONG, Types.TIMESTAMP
         );
     }
 
     private static PreparedStatementCreator getPreparedStatementCreator(
-            PreparedStatementCreatorFactory pscf, Taco taco, long orderId, long orderKey) {
+            PreparedStatementCreatorFactory pscf, Taco taco, long orderId) {
         return pscf.newPreparedStatementCreator(
                 Arrays.asList(
                         taco.getName(),
-                        taco.getCreatedAt(),
                         orderId,
-                        orderKey
+                        taco.getCreatedAt()
                 )
         );
     }}

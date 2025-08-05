@@ -17,12 +17,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-@Repository
+//@Repository
 public class JdbcOrderRepository implements OrderRepository {
     private final JdbcTemplate jdbcTemplate;
     private final TacoRepository tacoRepository;
 
-    @Autowired
+//    @Autowired
     public JdbcOrderRepository(JdbcTemplate jdbcTemplate,
                                TacoRepository tacoRepository) {
         this.jdbcTemplate = jdbcTemplate;

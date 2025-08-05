@@ -3,7 +3,7 @@ USE taco_cloud;
 DELETE FROM taco_order;
 DELETE FROM taco;
 DELETE FROM ingredient;
-DELETE FROM ingredient_ref;
+DELETE FROM taco_ingredients;
 
 INSERT INTO ingredient
     (id, name, type)

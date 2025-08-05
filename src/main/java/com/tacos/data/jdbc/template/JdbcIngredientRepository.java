@@ -12,11 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class JdbcIngredientRepository implements IngredientRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
+//    @Autowired
     public JdbcIngredientRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
