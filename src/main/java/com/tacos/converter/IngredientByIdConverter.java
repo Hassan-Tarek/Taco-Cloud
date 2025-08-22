@@ -1,4 +1,4 @@
-package com.tacos.web;
+package com.tacos.converter;
 
 import com.tacos.data.jpa.IngredientRepository;
 import com.tacos.domain.Ingredient;
