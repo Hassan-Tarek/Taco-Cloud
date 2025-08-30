@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS taco_order (
 CREATE TABLE IF NOT EXISTS taco (
     id BIGINT AUTO_INCREMENT NOT NULL,
     name VARCHAR(50),
-    taco_order_id BIGINT NOT NULL,
+    taco_order_id BIGINT NULL,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT pk_id PRIMARY KEY (id),
     CONSTRAINT fk_taco_order FOREIGN KEY (taco_order_id)
